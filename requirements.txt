@@ -1,0 +1,4 @@
+gitpython>=3.1.0
+python-dotenv>=0.19.0
+openai~=1.58.1
+pyinstaller>=6.3.0
