@@ -5,8 +5,22 @@ from ..utils.logger import Logger
 
 logger = Logger(__name__)
 
+"""AI代码分析器，负责分析代码变更并生成建议。
+
+此类使用OpenAI API来分析代码变更，提供：
+1. 代码质量分析
+2. 安全问题检测
+3. 提交信息生成
+"""
 class AIAnalyzer:
     def __init__(self):
+        """初始化AI分析器。
+        
+        配置OpenAI API的认证信息和基础URL。
+        
+        Raises:
+            Exception: 初始化失败时抛出异常
+        """
         logger.info("初始化 AI 分析器...")
         try:
             config = Config()
@@ -18,7 +32,29 @@ class AIAnalyzer:
             raise
 
     def analyze_changes(self, file_path, diff_content):
-        """分析文件变更并返回结构化的建议"""
+        """分析文件变更并返回结构化的建议。
+        
+        使用OpenAI API分析代码差异，生成包含代码质量、安全问题等方面的建议。
+        
+        Args:
+            file_path (str): 变更文件的路径
+            diff_content (str): git diff的内容
+            
+        Returns:
+            dict: 包含分析结果的JSON对象，结构如下：
+                {
+                    "code_quality": {
+                        "changes": ["代码变更的具体内容描述"],
+                        "issues": ["发现的代码质量问题"],
+                        "improvements": ["代码改进建议"]
+                    },
+                    "security_issues": {
+                        "vulnerabilities": ["安全漏洞描述"],
+                        "warnings": ["安全警告信息"],
+                        "recommendations": ["安全改进建议"]
+                    }
+                }
+        """
         logger.info(f"开始分析文件: {file_path}")
         try:
             response = openai.chat.completions.create(
